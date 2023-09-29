@@ -1,0 +1,53 @@
+---
+title: "Q1_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.1 Week 5
+
+```{r cars}
+#parameters
+n_trials = 1000000
+t = 1
+rf = 0.01
+rho = 0.1
+K = 250
+
+s10 = 100
+q1 = 0.00
+vol1 = 0.5
+s20 = 150
+q2 = 0.03
+vol2 = 0.4
+
+sigma1 = vol1 * sqrt(t)
+sigma2 = vol2 * sqrt(t)
+
+mu1 = log(s10) + (rf - q1 - 0.5 * vol1^2) * t
+mu2 = log(s20) + (rf - q2 - 0.5 * vol2^2) * t
+
+a = exp(mu1 + 0.5 * sigma1^2) + exp(mu2 + 0.5 * sigma2^2)
+b = exp(2*mu1 + 2 * sigma1^2) + exp(2*mu2 + 2 * sigma2^2) + 2 * exp(mu1 + mu2 + 0.5* (sigma1^2 + sigma2^2 + 2*rho*sigma1*sigma2))
+
+sigma_sqr_hat = log(b/a^2)
+sigma_hat = sqrt(sigma_sqr_hat)
+mu_hat = log(a^2/sqrt(b))
+
+basket_call_val = 0
+
+for (i in 1:n_trials){
+  z = rnorm(1, mean = 0, sd = 1)
+  basket_call_val = ((i-1) * basket_call_val + max(0, exp(mu_hat + sigma_hat * z) - K))/i
+}
+basket_call_val = exp(-rf*t) * basket_call_val#discount the mean of the payoff back to the current time
+  
+cat("mu_hat", mu_hat)
+cat("sigma_sqr_hat", sigma_sqr_hat, "the standard error", sigma_hat)
+cat("basket_call_val", basket_call_val)
+```

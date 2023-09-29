@@ -1,0 +1,69 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 2.2 (Week 4)
+
+```{r cars}
+alpha = 0.05
+n = 1000
+se = 1
+margin_of_error = 1
+
+n_list = list()
+margin_of_error_list = list()
+n_list2 = list()
+x_list = list()
+
+while (margin_of_error > 0.00025){#Margin of Error
+  n = n * 4
+  x_bar = 0
+  x_squared_bar = 0
+  cnt = 1
+  for (i in 1:floor(n/2)){
+    r = sqrt(-2*log(runif(1, 0, 1)))
+    zeta = 2*pi*runif(1, 0, 1)
+    z1 = r*cos(zeta)
+    z2 = r*sin(zeta)
+    c_z1 = cos(z1)
+    c_z2 = cos(z2)
+    x_bar = ((cnt-1) * x_bar + c_z1)/cnt
+    x_squared_bar = ((cnt-1) * x_squared_bar + c_z1^2)/cnt
+    cnt = cnt + 1
+    x_bar = ((cnt-1) * x_bar + c_z2)/cnt
+    x_squared_bar = ((cnt-1) * x_squared_bar + c_z2^2)/cnt
+    cnt = cnt + 1
+  }
+  se = sqrt((x_squared_bar - x_bar^2)/(n-1))
+  margin_of_error = qt(p=1.0 - alpha/2, df = n - 1) * se
+  U_limit_t = x_bar + qt(p=1.0 - alpha/2, df = n - 1) * se
+  L_limit_t = x_bar - qt(p=1.0 - alpha/2, df = n - 1) * se
+  
+  n_list2 <- append(n_list2, log(n))
+  n_list2 <- append(n_list2,log(n))
+  x_list <- append(x_list, U_limit_t)
+  x_list <- append(x_list, L_limit_t)
+  
+  n_list <- append(n_list,log(n))
+  margin_of_error_list <- append(margin_of_error_list, log(margin_of_error))
+}
+cat("the lowest n that satisfy Margin of Error <= 0.00025 is ", n, " which achieved a margin of error of ", margin_of_error)
+cat("the confidence interval with ", (1 - alpha)*100, "% confidence level is [", L_limit_t, ", ", U_limit_t, "]\n")
+```
+## The plot showing the convergence of the lower and upper bounds.
+```{r cars2}
+plot(n_list2, x_list, xlab = "Log(Number of samples)", ylab = "Confidence interval with 95% confidence level")
+```
+
+#
+## The plot showing the relationship between the sample sizes and the margins of error.
+```{r cars3}
+plot(n_list, margin_of_error_list, xlab = "Log(Number of samples)", ylab = "Log(Margin of Error)")
+```

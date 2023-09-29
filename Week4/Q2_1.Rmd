@@ -1,0 +1,46 @@
+---
+title: "Q2_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 2.1 (Week 4) Monte Carlo Simulation with different N
+
+```{r cars}
+alpha = 0.05
+
+for (n in c(1000, 4000, 16000, 64000, 256000, 1024000)){
+  x_bar = 0
+  x_squared_bar = 0
+  cnt = 1
+  for (i in 1:floor(n/2)){
+    r = sqrt(-2*log(runif(1, 0, 1)))
+    zeta = 2*pi*runif(1, 0, 1)
+    z1 = r*cos(zeta)
+    z2 = r*sin(zeta)
+    c_z1 = cos(z1)
+    c_z2 = cos(z2)
+    x_bar = ((cnt-1) * x_bar + c_z1)/cnt
+    x_squared_bar = ((cnt-1) * x_squared_bar + c_z1^2)/cnt
+    cnt = cnt + 1
+    x_bar = ((cnt-1) * x_bar + c_z2)/cnt
+    x_squared_bar = ((cnt-1) * x_squared_bar + c_z2^2)/cnt
+    cnt = cnt + 1
+  }
+  se = sqrt((x_squared_bar - x_bar^2)/(n-1))
+  margin_of_error = qt(p=1.0 - alpha/2, df = n - 1) * se
+  cat("n: ", n, "\n")
+  cat("X_bar: ", x_bar, "with standard error: ", se, " with margin of error: ", margin_of_error, "\n")
+  U_limit_t = x_bar + qt(p=1.0 - alpha/2, df = n - 1) * se
+  L_limit_t = x_bar - qt(p=1.0 - alpha/2, df = n - 1) * se
+  
+  cat("the confidence interval with ", (1 - alpha)*100, "% confidence level is [", L_limit_t, ", ", U_limit_t, "]\n")
+
+
+}
+```

@@ -1,0 +1,5 @@
+data = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week1/assignment/TSLA.csv")
+print(data)
+print("Test for corr(Adj.Close, volume):")
+print(cor.test(data$Adj.Close, data$Volume, use = "complete.obs"))
+plot(data$Adj.Close, data$Volume)

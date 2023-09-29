@@ -1,0 +1,61 @@
+---
+title: "Q2_7"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.7
+
+Answer1: According to the histograms and the Q-Q plots, the laplace distribution fits the Today data better than using the normal distribution in peak and tail areas because of the positive excess kurtosis (fat-tail behavior).
+
+
+Answer2: The returns of S&P500 have fat-tail behavior which is fatter than those of a normal distribution.
+
+
+Answer3: The sample skewness = 0.2013, and the sample kurtosis = 5.3869.
+
+```{r cars}
+library(ISLR)
+library(VGAM)
+library(moments)
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+sample_mean = mean(sp$Today)
+sample_sd= sd(sp$Today)
+
+x = seq(0, 1, by = 0.01)
+
+b_hat = sqrt((mean(sp$Today^2) - sample_mean^2)/2)
+par(mfrow = c(2, 2))
+#########################
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(-6,6), main="Curve obtained from normal distribution")
+curve(dnorm(x,sample_mean,sample_sd),add=TRUE,col="red",lwd=2, xlim=c(-6,6))
+
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(2,6),ylim=c(0,0.1), main="Situation at the tail (normal distribution)")
+curve(dnorm(x,sample_mean,sample_sd),add=TRUE,col="red",lwd=2, xlim=c(2,6),ylim=c(0,0.1))
+
+#########################
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(-6,6), main="Curve obtained from laplace distribution")
+curve(dlaplace(x,sample_mean,b_hat),add=TRUE,col="blue",lwd=2, xlim=c(-6,6))
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(2,6),ylim=c(0,0.1), main="Situation at the tail (laplace distribution)")
+curve(dlaplace(x,sample_mean,b_hat),add=TRUE,col="blue",lwd=2, xlim=c(2,6),ylim=c(0,0.1))
+
+par(mfrow = c(1, 2))
+qqnorm(sp$Today,xlim=c(-6,6),ylim=c(-6,6), xlab = "Theoretical Normal quantile", ylab = "Sample quantile")
+qqline(sp$Today)
+
+qqplot(rlaplace(10000,location = sample_mean, scale=b_hat),sp$Today,xlim=c(-6,6),ylim=c(-6,6), xlab = "Theoretical Laplace quantile", ylab = "Sample quantile", main= "Laplace Q-Q Plot")
+
+qqline(sp$Today)
+
+print(c("Sample skewness = ", skewness(sp$Today)))
+print(c("Sample kurtosis = ", kurtosis(sp$Today)))
+```

@@ -1,0 +1,20 @@
+---
+title: "Q2_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.1 Week 5
+
+```{r cars}
+data = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week5/exp-1.csv")
+lambda = 1/mean(data$sample)
+cat("lambda: ", lambda)
+theta = 1/lambda
+cat("theta: ", theta)
+```

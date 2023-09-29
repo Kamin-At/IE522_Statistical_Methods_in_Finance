@@ -1,0 +1,28 @@
+---
+title: "Q2_3"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.3
+Answer: I think using the default bandwidth, the red line, provides the best fitting results, which is the balance of the smoothness-and-oscillation tradeoff. Using 4 times the default bandwidth, the green line, is too smooth and cannot capture the distribution of the actual data. On the other hand, using too small bandwidth, 1/4 of the default bandwidth (blue line), is oscillating too much while best capturing the peak.
+
+```{r cars}
+library(ISLR)
+
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+
+hist(sp$Today, breaks = 50, freq=FALSE)
+lines(density(sp$Today, bw = "nrd0", adjust = 4),col="green",lwd=2)
+lines(density(sp$Today, bw = "nrd0", adjust = 1),col="red",lwd=2)
+lines(density(sp$Today, bw = "nrd0", adjust = 0.25),col="blue",lwd=2)
+```

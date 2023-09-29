@@ -1,0 +1,27 @@
+---
+title: "Q2_6"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.6
+
+Answer: My observation is that the index volume drops at the ends of the years. I searched for the reason, such as https://russellinvestments.com/us/blog/trading-mistakes-holidays, and most of the data sources said it is due to the thanksgiving period. On that period, people are usually leaving for their long holiday, and there are not so many significant financial reports published or events on that period. These reasons lead to a drop in volume, causing higher trading costs, such as, bigger spread and opportunity cost of waiting time to match a trade. Because of such reasons, traders therefore stop trading on the period too.
+
+```{r cars}
+library(xts)
+library(TSstudio)
+library(ISLR)
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+sp_ts = xts(sp[,-1],order.by=as.Date(sp$Date,"%m/%d/%Y"))
+ts_plot(sp_ts$Volume)
+```

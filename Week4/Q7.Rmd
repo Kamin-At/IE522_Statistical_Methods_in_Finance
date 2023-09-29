@@ -1,0 +1,25 @@
+---
+title: "Q7"
+author: "Kamin Atsavasirilert"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 7 (Week 4)
+
+```{r cars}
+n = 10000000#simulation size
+a = 1000#parameter
+c = 100#parameter
+cat("using a=", a, " using c=", c)
+tmp_x = runif(n, 0, 1)
+f_y <- function(c, a, tmp_x){
+  c/((tmp_x)^(1/a))
+}
+tmp_y = f_y(c, a, tmp_x)
+hist(tmp_y, 50, freq = FALSE, xlab = "X", main = "The simulated distribution of X")
+```

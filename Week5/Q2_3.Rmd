@@ -1,0 +1,26 @@
+---
+title: "Q2_3"
+author: "Kamin Atsavasirilert"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.3 Week 5
+
+```{r cars}
+data = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week5/exp-1.csv")
+n = length(data$sample)
+alpha = 0.05
+
+lambda = 1/mean(data$sample)
+cat("lambda: ", lambda)
+standard_error_of_lambda = sqrt(lambda^2/n)
+cat("standard_error_of_lambda: ", standard_error_of_lambda)
+lower_bound = lambda - qnorm(alpha/2,lower.tail=FALSE) * standard_error_of_lambda
+upper_bound = lambda + qnorm(alpha/2,lower.tail=FALSE) * standard_error_of_lambda
+cat("lower_bound:",lower_bound,"upper_bound:", upper_bound)
+```

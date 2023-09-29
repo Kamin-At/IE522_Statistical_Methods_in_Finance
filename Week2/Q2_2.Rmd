@@ -1,0 +1,39 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.2
+# Answer: Yes, a laplace distribution fit our the daily-return data much better than using a normal distribution. It captures the peak and tails of the true distribution relatively well.
+
+```{r cars}
+library(ISLR)
+library(VGAM)
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+n = nrow(sp)
+sp[c(1:3, (n-2):n),]
+sample_mean = mean(sp$Today)
+sample_sd= sd(sp$Today)
+
+x = seq(0, 1, by = 0.01)
+
+b_hat = sqrt((mean(sp$Today^2) - sample_mean^2)/2)
+par(mfrow = c(1, 2))
+hist(sp$Today, breaks = 50, freq=FALSE)
+curve(dlaplace(x,sample_mean,b_hat),add=TRUE,col="red",lwd=2)
+print(b_hat)
+print(sample_mean)
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(2,6),ylim=c(0,0.1))
+curve(dlaplace(x,sample_mean,b_hat),add=TRUE,col="red",lwd=2, xlim=c(2,6),ylim=c(0,0.1))
+```
+

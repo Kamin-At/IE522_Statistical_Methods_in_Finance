@@ -1,0 +1,44 @@
+---
+title: "Q2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.1-Q2.4
+
+
+```{r cars}
+#install.packages("dplyr")
+
+library(dplyr)
+
+alpha = 0.05
+
+data = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week1/assignment/TSLA.csv")
+data["lag_adj_close"] = dplyr::lag(data$Adj.Close, n= 1)
+log_ret = with(data, diff(log(data$Adj.Close)))
+data["log_ret"] = with(data, log(data$Adj.Close/data$lag_adj_close))
+
+daily_log_ret = na.omit(data$log_ret)
+
+x_bar = mean(data$log_ret,na.rm = TRUE)
+x_sd = sd(data$log_ret,na.rm = TRUE)
+std_error = x_sd/sqrt(length(daily_log_ret))
+
+U_limit = x_bar + qnorm(p = 1.0 - alpha/2, mean = 0, sd = 1) * std_error
+L_limit = x_bar - qnorm(p = 1.0 - alpha/2, mean = 0, sd = 1) * std_error
+print( c(L_limit , U_limit))
+par(mfrow = c(1, 2))
+
+hist(data$log_ret, 50, freq = FALSE)
+x = seq(0, 1, by = 0.01)
+curve(dnorm(x,x_bar,x_sd),add=TRUE,col="red",lwd=2)
+
+qqnorm(daily_log_ret, xlab = "Theoretical Normal quantile", ylab = "Sample quantile")
+qqline(daily_log_ret)
+```

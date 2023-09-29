@@ -1,0 +1,34 @@
+---
+title: "Q2_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.1
+Answer: No, a normal distribution does not fit the daily-return data well especially at the areas around the tails and peak of the histogram because of its fat-tail behavior (kurtosis higher than 3).
+
+```{r cars}
+library(ISLR)
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+
+sample_mean = mean(sp$Today)
+sample_sd= sd(sp$Today)
+
+x = seq(0, 1, by = 0.01)
+
+par(mfrow = c(1, 2))
+hist(sp$Today, breaks = 50, freq=FALSE)
+curve(dnorm(x,sample_mean,sample_sd),add=TRUE,col="red",lwd=2)
+
+hist(sp$Today, breaks = 50, freq=FALSE, xlim=c(2,6),ylim=c(0,0.1))
+curve(dnorm(x,sample_mean,sample_sd),add=TRUE,col="red",lwd=2, xlim=c(2,6),ylim=c(0,0.1))
+```

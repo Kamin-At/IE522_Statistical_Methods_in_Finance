@@ -1,0 +1,14 @@
+---
+title: "W3Q1_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Week3 Q1.1
+
+Our goal is to find $$E[\bar{X}] - \theta$$

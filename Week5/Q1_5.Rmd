@@ -1,0 +1,59 @@
+---
+title: "Q1_5"
+author: "Kamin Atsavasirilert"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.5 Week 5
+
+```{r cars}
+#parameters
+t = 1
+alpha = 0.05
+rf = 0.01
+rho = 0.1
+K = 250
+
+s10 = 100
+q1 = 0.00
+vol1 = 0.5
+s20 = 150
+q2 = 0.03
+vol2 = 0.4
+
+mu1 = log(s10) + (rf - q1 - 0.5 * vol1^2) * t
+mu2 = log(s20) + (rf - q2 - 0.5 * vol2^2) * t
+
+num_trial = 10240000
+
+basket_put_val = 0
+basket_put_val_sqr = 0
+
+for (i in 1:num_trial) {
+  z1 = rnorm(1, mean = 0, sd = 1)
+  s11 = exp(mu1 + vol1 * sqrt(t) * z1)
+  
+  tmp_z2 = rnorm(1, mean = 0, sd = 1)
+  z2 = rho * z1 + sqrt(1 - rho^2) * tmp_z2
+  s21 = exp(mu2 + vol2 * sqrt(t) * z2)
+  
+  total_price = s11 + s21
+  disc_tmp_payoff = max(0, K - total_price) * exp(-rf * t)
+  basket_put_val = ((i - 1) * basket_put_val + disc_tmp_payoff) / i
+  basket_put_val_sqr = ((i - 1) * basket_put_val_sqr + disc_tmp_payoff^2) / i
+}
+
+SE =  sqrt((basket_put_val_sqr - basket_put_val^2) /(i - 1))
+margin_of_error = qnorm(alpha/2,lower.tail=FALSE) * SE
+cat("with n = ", num_trial," the margin of error for the option price =", margin_of_error, "\n")
+
+upper_bound = basket_put_val + margin_of_error
+lower_bound = basket_put_val - margin_of_error
+cat("the estimated value of the put option =", basket_put_val)
+cat("the confidance interval of the put option value: [", lower_bound, ", ", upper_bound, "]")
+```

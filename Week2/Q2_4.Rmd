@@ -1,0 +1,30 @@
+---
+title: "Q2_4"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.4
+Answer: I investigated the day when the negative peak in Today occurred on SPY ETF (09/17/2001). The data point should be legitimate because such extreme value actually came from the actual financial crisis in 2001 (9/11 case).
+
+```{r cars}
+library(ISLR)
+
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+n = nrow(sp)
+
+
+boxplot(sp$Today)
+print(min(sp$Today))
+
+sp[order(sp$Today, decreasing = FALSE), ][1:3,]
+```

@@ -1,0 +1,56 @@
+---
+title: "W4Q1_2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1.2 (Week 4)
+
+```{r cars}
+#install.packages("dplyr")
+
+library(dplyr)
+
+df = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week4/TSLANVDA.csv")
+df = df[c("Date", "TSLAAdjClose", "NVDAAdjClose")]
+df["TSLA_lag_adj_close"] = dplyr::lag(df$TSLAAdjClose, n= 1)
+df["TSLA_log_ret"] = with(df, log(df$TSLAAdjClose/df$TSLA_lag_adj_close))
+df["NVDA_lag_adj_close"] = dplyr::lag(df$NVDAAdjClose, n= 1)
+df["NVDA_log_ret"] = with(df, log(df$NVDAAdjClose/df$NVDA_lag_adj_close))
+df = df[(!is.na(df$TSLA_log_ret))&(!is.na(df$NVDA_log_ret)),]
+
+print("check if TSLA_log_ret is independent to NVDA_log_ret")
+print(cor(df$TSLA_log_ret, df$NVDA_log_ret))
+```
+## Because the returns of both stocks are correlated, we need to convert to a new variable called ret_diff_TSLA_NVDA before constructing an interval.
+```{r cars2}
+df["ret_diff_TSLA_NVDA"] = df["TSLA_log_ret"] - df["NVDA_log_ret"]
+
+sample_mean = mean(df$ret_diff_TSLA_NVDA)
+sample_sd = sd(df$ret_diff_TSLA_NVDA)
+std_error = sample_sd/sqrt(length(df$ret_diff_TSLA_NVDA))
+print(sample_mean)
+print(sample_sd)
+
+alpha = 0.05
+
+U_limit = sample_mean + qnorm(p = 1.0 - alpha/2, mean = 0, sd = 1) * std_error
+L_limit = sample_mean - qnorm(p = 1.0 - alpha/2, mean = 0, sd = 1) * std_error
+
+print("The upper and lower limits of the mean difference using Normal distribution are ..")
+print(U_limit)
+print(L_limit)
+
+U_limit_t = sample_mean + qt(p=1.0 - alpha/2, df = length(df$ret_diff_TSLA_NVDA) - 1) * std_error
+L_limit_t = sample_mean - qt(p=1.0 - alpha/2, df = length(df$ret_diff_TSLA_NVDA) - 1) * std_error
+
+print("The upper and lower limits of the mean difference using student-t distribution are ..")
+print(U_limit_t)
+print(L_limit_t)
+```
+

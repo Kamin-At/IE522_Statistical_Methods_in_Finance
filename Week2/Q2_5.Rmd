@@ -1,0 +1,29 @@
+---
+title: "Q2_5"
+author: "Kamin Atsavasirilert"
+date: "2023-09-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.5
+
+Answer: To answer the question, I plotted 2 graphs. The first one is the correlation matrix of all the data, and I did not find any significant linear relationship among all the variables. The second graph is to explore the non-linear relation among features. I think there is some weak relationships between the returns and Volume. When the volume is high, the returns tend to be a little bit less diverge.
+
+```{r cars}
+library(ISLR)
+library(corrplot)
+
+n = nrow(Smarket)
+
+dates = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week2/ISLRSmarketDates.csv", header=TRUE);
+sp = data.frame(dates, Smarket[,-1])
+n = nrow(sp)
+
+corrplot(cor(sp[,2:8]), method="number")
+pairs(sp[,2:8])
+```
+

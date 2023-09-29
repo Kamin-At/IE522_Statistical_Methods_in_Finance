@@ -1,0 +1,27 @@
+---
+title: "Q1_1"
+author: "Kamin Atsavasirilert"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1.1 (Week 4) We can clearly see that the distribution of the NVDA returns does not follow normal distribution.
+
+```{r cars}
+#install.packages("dplyr")
+
+library(dplyr)
+
+df = read.csv("C:/Users/kamin/OneDrive/Documents/min/mfe/uiuc/Fall2023/Stats_for_Fin/Week4/TSLANVDA.csv")
+df = df[c("Date", "NVDAAdjClose")]
+df["NVDA_lag_adj_close"] = dplyr::lag(df$NVDAAdjClose, n= 1)
+df["NVDA_log_ret"] = with(df, log(df$NVDAAdjClose/df$NVDA_lag_adj_close))
+df = df[(!is.na(df$NVDA_log_ret)),]
+qqnorm(df$NVDA_log_ret, xlab = "Theoretical Normal quantile", ylab = "Sample quantile")
+qqline(df$NVDA_log_ret)
+```
+

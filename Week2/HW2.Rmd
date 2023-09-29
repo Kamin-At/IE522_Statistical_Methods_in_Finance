@@ -1,0 +1,17 @@
+---
+title: "IE522_hw2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1.1
+From slide 1 page 57, a laplace distribution has$$ mean =  \mu \quad and \quad Var(x) = 2b^2 $$.
+
+Because, $$\hat{\mu} = E[x] \quad and \quad Var(x) = 2\hat{b}^2 = E[x^2] - E[x]^2 $$
+So, the point estimators are $$\hat{\mu} = E[x] \quad and \quad \hat{b} = \sqrt{(E[x^2] - E[x]^2)/2}$$
+where $$ E[x^2] = (\sum_{i=0}^{n} x^2) / n \quad and \quad E[x] = (\sum_{i=0}^{n} x) / n$$ (from the moment matching approach)
