@@ -1,0 +1,22 @@
+---
+title: "Q1_2"
+author: "Kamin Atsavasirilert"
+date: "2023-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.2 Week6
+The point estimate of kurtosis of TSLA log returns = 7.2286.
+
+```{r cars}
+library(moments)
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week1/assignment/TSLA.csv")
+
+log_ret = diff(log(data$Adj.Close))
+kurtosis(log_ret)
+```

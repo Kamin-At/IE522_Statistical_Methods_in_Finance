@@ -1,0 +1,32 @@
+---
+title: "Q1_4"
+author: "Kamin Atsavasirilert"
+date: "2023-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.4 Week6
+
+```{r cars}
+library(moments)
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week1/assignment/TSLA.csv")
+
+log_ret = diff(log(data$Adj.Close))
+
+num_trial = 5000
+num_sample = length(log_ret)#1257
+
+sample_kurtoses = rep(0, num_trial)
+
+for (i in 1: num_trial){
+  xstar = sample(log_ret, num_trial, replace = TRUE)
+  sample_kurtoses[i] = kurtosis(xstar)
+}
+
+cat("The standard error of the sample kurtosis T = ",sd(sample_kurtoses))
+```

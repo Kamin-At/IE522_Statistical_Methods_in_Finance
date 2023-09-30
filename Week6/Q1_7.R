@@ -1,0 +1,24 @@
+library(moments)
+library(comprehenr)
+
+alpha = 0.05
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week1/assignment/TSLA.csv")
+
+log_ret = diff(log(data$Adj.Close))
+
+num_trial = 5000
+num_sample = length(log_ret)#1257
+
+kurtosis_hat = kurtosis(log_ret)
+
+sample_kurtoses = rep(0, num_trial)
+
+for (i in 1: num_trial){
+  xstar = sample(log_ret, num_trial, replace = TRUE)
+  sample_kurtoses[i] = kurtosis(xstar)
+}
+
+qu = quantile(sample_kurtoses, probs = 1 - alpha/2)
+ql = quantile(sample_kurtoses, probs = alpha/2)
+cat("So, the confidence interval of T is eastimated by [", 2*kurtosis_hat - qu, ",", 2*kurtosis_hat - ql, "]")
