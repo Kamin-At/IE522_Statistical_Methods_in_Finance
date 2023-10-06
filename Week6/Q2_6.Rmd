@@ -1,0 +1,29 @@
+---
+title: "Q2_6"
+author: "Kamin Atsavasirilert"
+date: "2023-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.6 Week6
+# So, the confidence interval with 95% confidence level is $$\mu_{D} \in [-0.002063498, \infty)$$, which is consistent with my conclusion in question 2.5 as $$\bar{D} = -0.0008377696 \in [-0.002063498, \infty)$$ .
+
+```{r cars}
+library(moments)
+
+mu0 = 0
+alpha = 0.05
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv")
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+log_ret_nvda = diff(log(data$NVDAAdjClose), lag=1)
+D = log_ret_tsla - log_ret_nvda
+se = sd(D)/sqrt(length(D))
+mean(D)
+lb = mu0 + se*qnorm(p = alpha)
+cat("The lower bound of mu_D:",lb)
+```

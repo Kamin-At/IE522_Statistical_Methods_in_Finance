@@ -372,12 +372,12 @@ num_sample = length(log_ret)#1257
 sample_kurtoses = rep(0, num_trial)
 
 for (i in 1: num_trial){
-  xstar = sample(log_ret, num_trial, replace = TRUE)
+  xstar = sample(log_ret, num_sample, replace = TRUE)
   sample_kurtoses[i] = kurtosis(xstar)
 }
 
 cat(&quot;P(T&gt;=6) = &quot;,length(to_list(for (i in sample_kurtoses) if (i &gt;= 6) i ))/length(sample_kurtoses))</code></pre>
-<pre><code>## P(T&gt;=6) =  0.9998</code></pre>
+<pre><code>## P(T&gt;=6) =  0.9476</code></pre>
 </div>
 
 

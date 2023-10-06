@@ -29,7 +29,7 @@ kurtosis_hat = kurtosis(log_ret)
 sample_kurtoses = rep(0, num_trial)
 
 for (i in 1: num_trial){
-  xstar = sample(log_ret, num_trial, replace = TRUE)
+  xstar = sample(log_ret, num_sample, replace = TRUE)
   sample_kurtoses[i] = kurtosis(xstar)
 }
 

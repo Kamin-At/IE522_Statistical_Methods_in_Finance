@@ -11,9 +11,9 @@
 
 <meta name="author" content="Kamin Atsavasirilert" />
 
-<meta name="date" content="2023-09-30" />
+<meta name="date" content="2023-10-03" />
 
-<title>Q1_7</title>
+<title>Q2_6</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,40 +350,35 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Q1_7</h1>
+<h1 class="title toc-ignore">Q2_6</h1>
 <h4 class="author">Kamin Atsavasirilert</h4>
-<h4 class="date">2023-09-30</h4>
+<h4 class="date">2023-10-03</h4>
 
 </div>
 
 
-<div id="q1.7-week6" class="section level2">
-<h2>Q1.7 Week6</h2>
+<div id="q2.6-week6" class="section level2">
+<h2>Q2.6 Week6</h2>
+</div>
+<div id="so-the-confidence-interval-with-95-confidence-level-is-mu_d-in--0.002063498-infty-which-is-consistent-with-my-conclusion-in-question-2.5-as-bard--0.0008377696-in--0.002063498-infty-." class="section level1">
+<h1>So, the confidence interval with 95% confidence level is <span class="math display">\[\mu_{D} \in [-0.002063498, \infty)\]</span>,
+which is consistent with my conclusion in question 2.5 as <span class="math display">\[\bar{D} = -0.0008377696 \in [-0.002063498,
+\infty)\]</span> .</h1>
 <pre class="r"><code>library(moments)
-library(comprehenr)
 
+mu0 = 0
 alpha = 0.05
 
-data = read.csv(&quot;C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week1/assignment/TSLA.csv&quot;)
-
-log_ret = diff(log(data$Adj.Close))
-
-num_trial = 5000
-num_sample = length(log_ret)#1257
-
-kurtosis_hat = kurtosis(log_ret)
-
-sample_kurtoses = rep(0, num_trial)
-
-for (i in 1: num_trial){
-  xstar = sample(log_ret, num_sample, replace = TRUE)
-  sample_kurtoses[i] = kurtosis(xstar)
-}
-
-qu = quantile(sample_kurtoses, probs = 1 - alpha/2)
-ql = quantile(sample_kurtoses, probs = alpha/2)
-cat(&quot;So, the confidence interval of T is eastimated by [&quot;, 2*kurtosis_hat - qu, &quot;,&quot;, 2*kurtosis_hat - ql, &quot;]&quot;)</code></pre>
-<pre><code>## So, the confidence interval of T is eastimated by [ 5.75632 , 8.685674 ]</code></pre>
+data = read.csv(&quot;C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv&quot;)
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+log_ret_nvda = diff(log(data$NVDAAdjClose), lag=1)
+D = log_ret_tsla - log_ret_nvda
+se = sd(D)/sqrt(length(D))
+mean(D)</code></pre>
+<pre><code>## [1] -0.0008377696</code></pre>
+<pre class="r"><code>lb = mu0 + se*qnorm(p = alpha)
+cat(&quot;The lower bound of mu_D:&quot;,lb)</code></pre>
+<pre><code>## The lower bound of mu_D: -0.002063498</code></pre>
 </div>
 
 

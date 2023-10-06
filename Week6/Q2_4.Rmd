@@ -1,0 +1,36 @@
+---
+title: "Q2_4"
+author: "Kamin Atsavasirilert"
+date: "2023-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.4 Week6
+# The p-value of the one sided test is 0.2521, and the test has its z value of $$Z_0 = (\bar{D} - \mu{0})/(STD_D/\sqrt{n}) = -0.6678$$.
+
+```{r cars}
+library(moments)
+
+mu0 = 0
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv")
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+log_ret_nvda = diff(log(data$NVDAAdjClose), lag=1)
+D = log_ret_tsla - log_ret_nvda
+se = sd(D)/sqrt(length(D))
+cat("mu_D:", mean(D))
+Z0 = (mean(D) - mu0)/se
+cat("Z0:", Z0)
+pval = pnorm(Z0)
+cat("p-value:", pval)
+```
+
+# The plot of sampling distribution of D.
+
+```{r pressure, echo=FALSE}
+hist(D, 40, freq = FALSE)
+```

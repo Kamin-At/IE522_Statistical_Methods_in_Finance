@@ -1,0 +1,35 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Q2.2 Week6
+# For  Shapiro-Wilk test, the P-value is much less than 0.05, meaning that we accept the alternative hypothesis that the TSLA stock returns did not come from a normal distribution.
+
+
+```{r cars}
+library(moments)
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv")
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+
+shapiro.test(log_ret_tsla)
+```
+
+# For  Jarque-Bera test, the P-value is much less than 0.05, meaning that we accept the alternative hypothesis that the TSLA stock returns did not come from a normal distribution.
+
+```{r cars2}
+jarque.test(log_ret_tsla)
+```
+
+# The sample kurtosis also greater than 3, and we can also clearly see that the TSLA return data did not follow a normal distribution from the normal Q-Q plot.
+```{r cars3}
+cat("kurtosis:", kurtosis(log_ret_tsla))
+qqnorm(log_ret_tsla, xlab = "Theoretical Normal quantile", ylab = "Sample quantile")
+qqline(log_ret_tsla)
+```

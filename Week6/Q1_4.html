@@ -361,7 +361,7 @@ display: none;
 <h2>Q1.4 Week6</h2>
 <pre class="r"><code>library(moments)
 
-data = read.csv(&quot;C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week1/assignment/TSLA.csv&quot;)
+data = read.csv(&quot;C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLA.csv&quot;)
 
 log_ret = diff(log(data$Adj.Close))
 
@@ -371,12 +371,12 @@ num_sample = length(log_ret)#1257
 sample_kurtoses = rep(0, num_trial)
 
 for (i in 1: num_trial){
-  xstar = sample(log_ret, num_trial, replace = TRUE)
+  xstar = sample(log_ret, num_sample, replace = TRUE)
   sample_kurtoses[i] = kurtosis(xstar)
 }
 
 cat(&quot;The standard error of the sample kurtosis T = &quot;,sd(sample_kurtoses))</code></pre>
-<pre><code>## The standard error of the sample kurtosis T =  0.3797517</code></pre>
+<pre><code>## The standard error of the sample kurtosis T =  0.7662792</code></pre>
 </div>
 
 

@@ -376,7 +376,7 @@ kurtosis_hat = kurtosis(log_ret)
 sample_kurtoses = rep(0, num_trial)
 
 for (i in 1: num_trial){
-  xstar = sample(log_ret, num_trial, replace = TRUE)
+  xstar = sample(log_ret, num_sample, replace = TRUE)
   sample_kurtoses[i] = kurtosis(xstar)
 }
 
@@ -385,7 +385,7 @@ ql = quantile(sample_kurtoses, probs = alpha/2)
 
 
 cat(&quot;So, the estimate of 0.025 qunatile of T = &quot;, ql, &quot; and 0.975 quantile of T = &quot;, qu)</code></pre>
-<pre><code>## So, the estimate of 0.025 qunatile of T =  6.475251  and 0.975 quantile of T =  7.983872</code></pre>
+<pre><code>## So, the estimate of 0.025 qunatile of T =  5.754986  and 0.975 quantile of T =  8.737626</code></pre>
 </div>
 
 

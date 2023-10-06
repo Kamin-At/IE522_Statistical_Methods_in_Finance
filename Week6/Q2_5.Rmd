@@ -1,0 +1,35 @@
+---
+title: "Q2_5"
+author: "Kamin Atsavasirilert"
+date: "2023-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.5 Week6
+# With 95% confidence level, we cannot reject the null hypothesis as the following criteria is not statisfied $$Z_0 < Z_{0.05}$$.
+```{r cars}
+library(moments)
+
+mu0 = 0
+alpha = 0.05
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv")
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+log_ret_nvda = diff(log(data$NVDAAdjClose), lag=1)
+D = log_ret_tsla - log_ret_nvda
+se = sd(D)/sqrt(length(D))
+
+Z0 = (mean(D) - mu0)/se
+
+pval = pnorm(Z0)
+cat("p-value:", pval)
+critical_value = qnorm(p=alpha)
+cat("mu_D:", mean(D))
+cat("Z0:", Z0)
+cat("critical D_bar value:", mu0 + critical_value*se)
+cat("critical_value Z of D_bar:", critical_value)
+```

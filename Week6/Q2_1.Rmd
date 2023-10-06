@@ -1,0 +1,22 @@
+---
+title: "Q2_1"
+author: "Kamin Atsavasirilert"
+date: "2023-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Q2.1 Week6
+Because p-value is 0.1444 (>= 0.05), we cannot reject the null hypothesis that the return differences D  is random with 95% confidence level. 
+
+```{r cars}
+library(randtests)
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week6/TSLANVDA.csv")
+log_ret_nvda = diff(log(data$NVDAAdjClose), lag=1)
+log_ret_tsla = diff(log(data$TSLAAdjClose), lag=1)
+D = log_ret_tsla - log_ret_nvda
+runs.test(D, alternative="two.sided", threshold=median(D), pvalue="normal", plot=FALSE)
+```
