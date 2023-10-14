@@ -1,0 +1,43 @@
+---
+title: "Q1_7"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.7 Week7
+From moment matching, a laplace distribution has $$\mu = (\Sigma^{n}_{i=1} x_i)/n$$ and $$b = \sqrt{(\Sigma^{n}_{i=1} x_i^2 - (\Sigma^{n}_{i=1} x_i)^2)/2n}$$. (reference from assignment #2 question 1.1)
+
+```{r cars}
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+mu = mean(log_ret)
+b = sqrt((mean(log_ret^2) - mu^2)/2)
+
+laplace_dist = function(x, theta){
+  (exp(-abs(x-theta[1])/theta[2]))/(2*theta[2])
+}
+
+log_likelihood_function = function(theta){
+  sum(log(laplace_dist(log_ret, theta)))
+}
+
+val_log_likelihood_pure_moment_matching = log_likelihood_function(c(mu, b))
+cat("val_log_likelihood_pure_moment_matching:",val_log_likelihood_pure_moment_matching)
+```
+
+# The MLEs of mu and b are 0.002640584, 0.031760275 respectively with the value of log likelihood function of 625.2951.
+
+```{r cars2}
+initial_val_laplace = c(round(mu, digits = 3), round(b, digits = 2))
+cat("initial_val_laplace:",initial_val_laplace)
+
+result_laplace_MLE = optim(initial_val_laplace, lower=c(-Inf, 0), upper=c(Inf, Inf),
+                           fn=function(theta){-log_likelihood_function(theta)}, method = "L-BFGS-B")
+result_laplace_MLE
+```

@@ -1,0 +1,22 @@
+---
+title: "Q1_3"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.3 Week7
+
+```{r cars}
+library(moments)
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+cat( "sample mean: ",mean(log_ret))
+cat("sample variance:", sd(log_ret)^2)
+cat("sample skewness:", skewness(log_ret))
+cat("sample kurtosis:",kurtosis(log_ret))
+```

@@ -1,0 +1,35 @@
+---
+title: "Q1_4"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.4 Week7
+# We can fit NIG with the log return data using moment matching method to obtain alpha, beta, gamma, delta, and mu as shown below.
+
+```{r cars}
+library(moments)
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+t = 1/252
+m = mean(log_ret)#sample mean
+v = sd(log_ret)^2#sample variance
+s = skewness(log_ret)#sample skewness
+k = kurtosis(log_ret)#sample kurtosis
+
+alpha = (3* sqrt(3*k - 9 - 4 * s^2)) / (sqrt(v) * (3*k - 9 - 5*s^2))
+beta = (3 * s) / (sqrt(v) * (3*k - 9 - 5*s^2))
+gamma = sqrt(alpha^2 - beta^2)
+delta = 9 / ((3*k - 9 - 4*s^2)* gamma * t)
+mu = (m * gamma - beta * delta * t) / (gamma * t)
+cat("alpha:",alpha)
+cat("beta:",beta)
+cat("gamma:",gamma)
+cat("delta:",delta)
+cat("mu:",mu)
+```

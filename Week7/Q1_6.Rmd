@@ -1,0 +1,40 @@
+---
+title: "Q1_6"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.6 Week7
+
+# When we use the initial values obtained from the moment matching method, the optimal values converge faster than using the initial values given by the question 1.2.
+
+Optimizing with given initial values in question 1.2 (took 22 time units to converge)
+```{r cars}
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+t = 1/252
+initial_val_NIG = c(10,0,2,0)
+NIG = function(x, theta){
+  tmp_val = sqrt((theta[3] * t)^2 + (x - theta[4] * t)^2)
+  (theta[1] * theta[3] * t / pi)* besselK(theta[1] * tmp_val, 1) / tmp_val * exp(theta[3] * sqrt(theta[1]^2 - theta[2]^2) * t + theta[2] * (x - theta[4] * t))
+}
+
+resultNIg = optim(initial_val_NIG, fn=function(theta){-sum(log(NIG(log_ret, theta)))}, method = "L-BFGS-B")
+resultNIg
+```
+
+Optimizing with initial values obtained by moment matching method (took 17 time units to converge)
+```{r cars2}
+initial_val_NIG = c(15.39977,4.091474,7.501373,-0.7332863)
+
+resultNIg_with_moment_matching = optim(initial_val_NIG, fn=function(theta){-sum(log(NIG(log_ret, theta)))}, method = "L-BFGS-B")
+resultNIg_with_moment_matching
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

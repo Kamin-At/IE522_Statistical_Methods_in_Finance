@@ -1,0 +1,39 @@
+---
+title: "Q1_1"
+author: "Kamin Atsavasirilert"
+date: "2023-10-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.1 Week7
+# Fitting BSM using MLE method
+
+```{r cars}
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+t = 1/252
+n = length(log_ret)
+mu = mean(log_ret)/t
+sigma = sqrt((n-1)/n) * sd(log_ret)/sqrt(t)
+loglikelihoodBSM = -n*log(2*pi*sigma^2*t)/2 - (n-1)*sd(log_ret)^2 / (2*sigma^2 * t)
+mu
+sigma
+loglikelihoodBSM
+```
+
+# Fitting BSM using numerical method (MLE)
+The MLE for mu and sigma are 1.3340105 and 0.7362866 respectively with the value of loglikelihood function of 588.0812.
+```{r cars2}
+initial_val_BSM = c(0,0.15)
+BSM = function(x, theta){
+  exp(-(x - theta[1] * t)^2 / (2 * theta[2]^2 * t)) / sqrt(2 * pi * theta[2]^2 * t)
+}
+
+resultBSM = optim(initial_val_BSM, fn=function(theta){-sum(log(BSM(log_ret, theta)))}, method="L-BFGS-B")
+resultBSM
+```

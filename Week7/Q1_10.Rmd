@@ -1,0 +1,49 @@
+---
+title: "Q1_10"
+author: "Kamin Atsavasirilert"
+date: "2023-10-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.10 Week7
+
+```{r cars}
+
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+t = 1/252
+
+BSM = function(x, theta){
+  exp(-(x - theta[1] * t)^2 / (2 * theta[2]^2 * t)) / sqrt(2 * pi * theta[2]^2 * t)
+}
+
+laplace_dist = function(x, theta){
+  (exp(-abs(x-theta[1])/theta[2]))/(2*theta[2])
+}
+
+NIG = function(x, theta){
+  tmp_val = sqrt((theta[3] * t)^2 + (x - theta[4] * t)^2)
+  (theta[1] * theta[3] * t / pi)* besselK(theta[1] * tmp_val, 1) / tmp_val * exp(theta[3] * sqrt(theta[1]^2 - theta[2]^2) * t + theta[2] * (x - theta[4] * t))
+}
+hist(log_ret, ylim = c(0, 18), breaks = 50, freq=FALSE)
+
+mu_BSM =  1.3340105 
+sigma_BSM = 0.7362866
+curve(BSM(x, c(mu_BSM, sigma_BSM)),add=TRUE,col="blue",lwd=2, lty = 2)
+
+alpha_NIG = 16.454078
+beta_NIG = 2.349904
+delta_NIG = 8.508050
+mu_NIG = 0.106342
+curve(NIG(x, c(alpha_NIG, beta_NIG, delta_NIG,mu_NIG)),add=TRUE,col="green",lwd=2, lty=1)
+
+mu_laplace = 0.002640584
+b_laplace = 0.031760275
+curve(laplace_dist(x, c(mu_laplace, b_laplace)),add=TRUE,col="red",lwd=2, lty=2)
+legend("topright", c("BSM", "NIG", "Laplace"), col = c("blue", "green", "red"), lty=2:1)
+```

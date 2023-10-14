@@ -1,0 +1,40 @@
+---
+title: "Q1_5"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.5 Week7
+
+# The moment matching method achieve the value of the log likelihood function of 625.9847, which is slightly lower than when we solve the parameters using numerical approach in question 1.2 (the value of the likelihood function = 627.4659).
+# Therefore moment matching method does not maximize the log likelihood function.
+```{r cars}
+library(moments)
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+t = 1/252
+m = mean(log_ret)#sample mean
+v = sd(log_ret)^2#sample variance
+s = skewness(log_ret)#sample skewness
+k = kurtosis(log_ret)#sample kurtosis
+
+alpha = (3* sqrt(3*k - 9 - 4 * s^2)) / (sqrt(v) * (3*k - 9 - 5*s^2))
+beta = (3 * s) / (sqrt(v) * (3*k - 9 - 5*s^2))
+gamma = sqrt(alpha^2 - beta^2)
+delta = 9 / ((3*k - 9 - 4*s^2)* gamma * t)
+mu = (m * gamma - beta * delta * t) / (gamma * t)
+
+
+NIG = function(x, theta){
+  tmp_val = sqrt((theta[3] * t)^2 + (x - theta[4] * t)^2)
+  (theta[1] * theta[3] * t / pi)* besselK(theta[1] * tmp_val, 1) / tmp_val * exp(theta[3] * sqrt(theta[1]^2 - theta[2]^2) * t + theta[2] * (x - theta[4] * t))
+}
+calculate_of_log_likelihood_function = function(theta){sum(log(NIG(log_ret, theta)))}
+value_of_log_likelihood_function = calculate_of_log_likelihood_function(c(alpha, beta, delta, mu))
+cat("value_of_log_likelihood_function:", value_of_log_likelihood_function)
+```

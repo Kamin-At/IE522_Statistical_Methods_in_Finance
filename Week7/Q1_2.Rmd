@@ -1,0 +1,29 @@
+---
+title: "Q1_2"
+author: "Kamin Atsavasirilert"
+date: "2023-10-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.2 Week7
+# Fitting NIG using numerical optimization
+The MLEs for alpha, beta, delta and mu are 16.454078, 2.349904, 8.508050 and 0.106342 respectively.
+The value of the likelihood function = 627.4659.
+```{r cars}
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+t = 1/252
+initial_val_NIG = c(10,0,2,0)
+NIG = function(x, theta){
+  tmp_val = sqrt((theta[3] * t)^2 + (x - theta[4] * t)^2)
+  (theta[1] * theta[3] * t / pi)* besselK(theta[1] * tmp_val, 1) / tmp_val * exp(theta[3] * sqrt(theta[1]^2 - theta[2]^2) * t + theta[2] * (x - theta[4] * t))
+}
+
+resultNIg = optim(initial_val_NIG, fn=function(theta){-sum(log(NIG(log_ret, theta)))}, method = "L-BFGS-B")
+resultNIg
+```

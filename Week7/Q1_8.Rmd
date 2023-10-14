@@ -1,0 +1,41 @@
+---
+title: "Q1_8"
+author: "Kamin Atsavasirilert"
+date: "2023-10-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1.8 Week7
+# The estimates obtained from both methods are very close to each other.
+- mu_hat: theoretical value = 0.002542841, numerically-solved value = 0.002640584
+- b_hat: theoretical value = 0.03175852, numerically-solved value = 0.031760275
+
+# The value of log likelihood function exactly matches what I get from the previous question until 4 digit decimal points.
+From https://en.wikipedia.org/wiki/Laplace_distribution, the MLEs of mu and b of a laplace distribution are as follows.
+
+$$\hat{\mu_x} = median(x_i)$$
+and
+$$\hat{b_x} = (\Sigma_{i = 1}^{n} |x_i - \hat{\mu}_x|)/n$$
+
+```{r cars}
+data = read.csv("C:/min/coding_project/IE522_Statistical_Methods_in_Finance/Week7/ZM.csv")
+log_ret = diff(log(data$ZM))
+
+mu_hat = median(log_ret)
+b_hat = mean(abs(log_ret - mu_hat))
+cat("mu_hat:",mu_hat)
+cat("b_hat",b_hat)
+laplace_dist = function(x, theta){
+  (exp(-abs(x-theta[1])/theta[2]))/(2*theta[2])
+}
+
+log_likelihood_function = function(theta){
+  sum(log(laplace_dist(log_ret, theta)))
+}
+cat("the value of the log likelihood function using theoretical MLEs:",log_likelihood_function(c(mu_hat, b_hat)))
+
+```
