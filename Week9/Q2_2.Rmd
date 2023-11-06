@@ -1,0 +1,21 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.2
+
+```{r cars}
+library(AER)
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+plot(Macro$consumption,Macro$gdp, main="Consuption V.S. GDP")
+summary(lm(Macro$consumption ~ Macro$gdp))
+```

@@ -1,0 +1,30 @@
+---
+title: "Q2_1"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Week 9 Question 2.1
+
+```{r cars}
+library(AER)
+data("USMacroG")
+
+dim(USMacroG)
+
+USMacroG=na.omit(USMacroG)
+dim(USMacroG)
+
+Macro=as.data.frame(apply(USMacroG,2,diff))
+dim(Macro)
+
+sum(is.na(USMacroG))
+sum(is.na(Macro))
+
+summary(lm(USMacroG[,"consumption"] ~ USMacroG[,"cpi"]))
+summary(lm(Macro$consumption ~ Macro$cpi))
+```

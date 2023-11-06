@@ -1,0 +1,30 @@
+---
+title: "Q2_4"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.4
+
+```{r cars}
+library(AER)
+alpha = 0.01
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+
+model = lm(Macro$consumption ~ Macro$gdp)
+tmp_summary = summary(model)
+tmp_summary
+
+sse <- sum((fitted(model) - Macro$consumption)^2)
+ssr <- sum((fitted(model) - mean(Macro$consumption))^2)
+sst = ssr+sse
+cat("sse: ",sse, "ssr: ",ssr, "sst: ",sst, "R^2: ", ssr/sst)
+```

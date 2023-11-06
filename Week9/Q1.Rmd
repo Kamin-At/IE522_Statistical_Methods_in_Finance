@@ -1,0 +1,21 @@
+---
+title: "W9_Q1"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+# Week 9 question 1.1
+
+
+```{r cars}
+set.seed(1)
+t=seq(1,100,by=1) #time
+X  =10+t+rnorm(100)
+Y1 =20+2*t+rnorm(100)
+Y2 =20+2*t+5*X+rnorm(100)
+summary(lm(Y1 ~ X))
+summary(lm(Y2 ~ X))
+```

@@ -1,0 +1,35 @@
+---
+title: "Q2_8"
+author: "Kamin Atsavasirilert"
+date: "2023-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.4
+
+```{r cars}
+library(AER)
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+consumption = Macro$consumption
+m1 = Macro$m1
+gdp = Macro$gdp
+government = Macro$government
+invest = Macro$invest 
+dpi = Macro$dpi  
+cpi = Macro$cpi
+tbill = Macro$tbill 
+unemp = Macro$unemp
+population = Macro$population 
+inflation  = Macro$inflation  
+interest  = Macro$interest  
+
+model = lm(consumption ~ m1 + gdp + government + invest + dpi + cpi + tbill + unemp + population + inflation + interest)
+tmp_summary = summary(model)
+tmp_summary
+```

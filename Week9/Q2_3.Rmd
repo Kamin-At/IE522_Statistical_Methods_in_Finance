@@ -1,0 +1,29 @@
+---
+title: "Q_2_3"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.3
+
+```{r cars}
+library(AER)
+alpha = 0.01
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+model = lm(Macro$consumption ~ Macro$gdp)
+tmp_summary = summary(model)
+tmp_summary
+tmp_summary$coefficients["Macro$gdp","Std. Error"] 
+
+upper_bound = tmp_summary$coefficients["Macro$gdp","Estimate"]  + qt(p = 1 - alpha/2, df = dim(Macro)[1] - 2) * tmp_summary$coefficients["Macro$gdp","Std. Error"]
+lower_bound = tmp_summary$coefficients["Macro$gdp","Estimate"]  - qt(p = 1 - alpha/2, df = dim(Macro)[1] - 2) * tmp_summary$coefficients["Macro$gdp","Std. Error"]
+cat("The confidence interval of Beta2 with 99% confidence level = [", lower_bound, ",", upper_bound, "]")
+```

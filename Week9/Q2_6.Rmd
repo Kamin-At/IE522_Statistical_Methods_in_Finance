@@ -1,0 +1,28 @@
+---
+title: "Q2_6"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.4
+
+```{r cars}
+library(AER)
+confidenc_level = 0.95
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+consumption = Macro$consumption
+tbill = Macro$tbill
+cpi = Macro$cpi
+inflation = Macro$inflation
+
+model = lm(consumption ~ tbill + cpi + inflation)
+tmp_summary = summary(model)
+tmp_summary
+```

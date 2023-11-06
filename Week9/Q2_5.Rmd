@@ -1,0 +1,33 @@
+---
+title: "Q2_5"
+author: "Kamin Atsavasirilert"
+date: "2023-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# Week 9 Question 2.5
+
+```{r cars}
+library(AER)
+confidenc_level = 0.95
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+y = Macro$consumption[1:dim(Macro)[1] - 1]
+x = Macro$gdp[1:dim(Macro)[1] - 1]
+
+model = lm(y ~ x)
+tmp_summary = summary(model)
+tmp_summary
+
+Macro$gdp[dim(Macro)[1]]
+
+y_pred = predict(model, data.frame(x = c(Macro$gdp[dim(Macro)[1]])), interval = "predict", level = confidenc_level)
+cat("Predicted value: ", y_pred[,'fit'], " lower bound: ", y_pred[,'lwr'], " upper bound:", y_pred[,'upr'])
+cat("Actual value: ", Macro$consumption[dim(Macro)[1]])
+cat("Prediction error:", Macro$consumption[dim(Macro)[1]] - y_pred[,'fit'])
+```
