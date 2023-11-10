@@ -1,0 +1,20 @@
+---
+title: "Q1_1"
+author: "Kamin Atsavasirilert"
+date: "2023-11-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Question 1.1 week 10
+
+```{r pressure}
+library(AER)
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+summary(lm(consumption~., data = Macro))
+```

@@ -1,0 +1,29 @@
+---
+title: "Q2_3"
+author: "Kamin Atsavasirilert"
+date: "2023-11-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.3 Week 10
+
+```{r cars}
+
+library(ISLR)
+x=Credit
+x$student_dummy <- ifelse(x$Student == "Yes", 0, 1)
+
+x$limit_square <- x$Limit ^ 2 
+x$income_square <- x$Income ^ 2 
+model = lm(Balance ~ Income + income_square + Limit + limit_square + Rating + Cards + Age + student_dummy + Limit:student_dummy, data=x)
+summary(model)
+```
+# Model from Question 2.1
+```{r cars2}
+model2 = lm(Balance ~ Income + Limit + Rating + Cards + Age + student_dummy, data=x)
+summary(model2)
+```

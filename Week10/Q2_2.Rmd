@@ -1,0 +1,20 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-11-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Q2.2 Week 10
+
+```{r cars}
+library(ISLR)
+x=Credit
+x$student_dummy <- ifelse(x$Student == "Yes", 0, 1)
+
+model = lm(Balance ~ Income + Limit  + Rating + Cards + Age + student_dummy + Limit:student_dummy, data=x)
+summary(model)
+```

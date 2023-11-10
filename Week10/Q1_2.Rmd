@@ -1,0 +1,44 @@
+---
+title: "Q1_2"
+author: "Kamin Atsavasirilert"
+date: "2023-11-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Question 1.2 week 10
+
+```{r pressure}
+library(AER)
+library(leaps)
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+# summary(lm(consumption~., data = Macro))
+fit = regsubsets(consumption~., Macro, nvmax=11)
+result = summary(fit)
+result
+```
+## Pick the best model using Mallow's Cp criteria
+# The black dot indicates the optimal number of regressors.
+```{r 2}
+# #Adj R2 criteria
+# plot(result$adjr2, xlab="# of regressors", ylab="adj R2", type="b")
+# i = which.max(result$adjr2)
+# points(i, result$adjr2[i], cex=2, pch=20)
+
+#Mallow's Cp criteria 
+plot(result$cp, xlab="# of regressors", ylab="cp", type="b")
+i = which.min(result$cp)
+points(i, result$cp[i], cex=2, pch=20)
+```
+
+## Fit a new model with best regressors
+
+```{r 3}
+summary(lm(consumption~gdp+invest+government+dpi+population+interest, Macro))
+```

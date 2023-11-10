@@ -1,0 +1,25 @@
+---
+title: "Q1_6"
+author: "Kamin Atsavasirilert"
+date: "2023-11-06"
+output: html_document
+---
+
+```{r setup}
+```
+
+## Question 1.6 week 10
+
+```{r pressure}
+library(AER)
+library(leaps)
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+model = lm(consumption~gdp+invest+government+dpi+population+interest, Macro)
+#summary(model)
+
+acf(model$residuals)
+```

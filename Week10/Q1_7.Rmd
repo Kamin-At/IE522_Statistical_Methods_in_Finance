@@ -1,0 +1,51 @@
+---
+title: "Q1_7"
+author: "Kamin Atsavasirilert"
+date: "2023-11-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Question 1.7 week 10
+
+```{r pressure}
+library(AER)
+library(leaps)
+
+data("USMacroG")
+USMacroG=na.omit(USMacroG)
+Macro=as.data.frame(apply(USMacroG,2,diff))
+
+nrow(Macro)
+ncol(Macro)
+
+model = lm(consumption~gdp+invest+government+dpi+population+interest, Macro)
+summary(model)
+
+standardized_residuals = rstandard(model)
+
+plot(model$fitted.values, standardized_residuals)#$residuals)
+abline(0,0)
+
+cat("average leverage value: ",mean(hatvalues(model)))
+
+```
+# High leverage points (h >= 2*mean(h))
+```{r pressure5}
+Macro[which(hatvalues(model) >= mean(hatvalues(model))*2),]
+```
+# Outliers |standardized residual| >= 3
+```{r pressure6}
+Macro[which(abs(standardized_residuals) >= 3),]
+```
+# Normal statistics of each feature
+```{r pressure2}
+summary(Macro)
+```
+# The outlier + high leverage point data
+## We can clearly see that, at that data point, almost every feature is at their extreme values. The economic sense also implies in the same way as many important econimic features are almost at their maximum values in the entire history.
+```{r pressure3}
+Macro[which((abs(standardized_residuals) >= 3)&(hatvalues(model) >= mean(hatvalues(model))*2)),]
+```
