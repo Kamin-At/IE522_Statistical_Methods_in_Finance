@@ -1,0 +1,28 @@
+---
+title: "Q2_3"
+author: "Kamin Atsavasirilert"
+date: "2023-11-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Question 2.3 - 2.5 Week 12
+
+```{r cars}
+library(Ecdat)
+library(forecast)
+
+order = 2
+data(Capm)
+r=Capm$rf
+r
+dr=diff(r)
+dr
+model = auto.arima(x=dr)
+model
+forecast(model, level=90)
+cat("interest rate in Dec2002: ", r[length(r)], " predicted change = ", "5.465171e-03")
+cat("the confidence interval of the interest rate change under 90% confidence level = [", -0.1079146, ",",  0.1188449, "]")
+```
