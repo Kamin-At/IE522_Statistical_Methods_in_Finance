@@ -1,0 +1,22 @@
+---
+title: "Q2_2"
+author: "Kamin Atsavasirilert"
+date: "2023-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Q2.2 Week 13
+
+```{r cars}
+library(quantmod)
+library(randtests)
+
+getSymbols(Symbols = "^GSPC", from = "2000-01-01", to = "2022-11-12", auto_assign = TRUE)
+return=dailyReturn(GSPC,type="log")
+
+runs.test(coredata(return), alternative = "two.sided", threshold = median(return), pvalue = "normal", plot=FALSE)
+Box.test(return,lag=10,type="Ljung-Box")
+```

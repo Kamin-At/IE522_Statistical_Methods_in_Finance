@@ -1,0 +1,32 @@
+---
+title: "Q2_4"
+author: "Kamin Atsavasirilert"
+date: "2023-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q2.4 Week 13
+
+```{r cars}
+library(quantmod)
+
+getSymbols(Symbols = "^GSPC", from = "2000-01-01", to = "2022-11-12", auto_assign = TRUE)
+return=dailyReturn(GSPC,type="log")
+return
+length(return)
+length(return[!is.infinite(return)])
+for(i in 0:3){
+  for (j in 0:3){
+    cat("ARMA(", i, ", ", j, ")")
+    fit <- arima(return, include.mean = TRUE, order=c(i,0,j))
+    print(fit)
+    print("")
+    print("-------------------------------------------------")
+  }
+}
+  
+```

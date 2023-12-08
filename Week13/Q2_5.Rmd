@@ -1,0 +1,43 @@
+---
+title: "Q2_5"
+author: "Kamin Atsavasirilert"
+date: "2023-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Q2.5 Week 13
+
+```{r cars}
+library(quantmod)
+library(fGarch)
+
+
+getSymbols(Symbols = "^GSPC", from = "2000-01-01", to = "2022-11-12", auto_assign = TRUE)
+return=dailyReturn(GSPC,type="log")
+return
+length(return)
+length(return[!is.infinite(return)])
+for(x in 0:2){
+  for (y in 0:2){
+    for (m in 1:2){
+      for (n in 0:2){
+        cat("ARMA(", x, ", ", y, ") with GARCH(", m, ", ", n, ")")
+          result = garchFit(formula = substitute(~arma(p,q)+garch(i,j),
+                                              list(p=x,
+                                                   q=y,
+                                                   i=m,
+                                                   j=n)), 
+                         data = coredata(return), 
+                         cond.dist = "norm")
+          cat("AIC: ", result@fit$ics[1]*nrow(return))
+          print("")
+          print("-------------------------------------------------")
+      }
+    }
+  }
+}
+  
+```
